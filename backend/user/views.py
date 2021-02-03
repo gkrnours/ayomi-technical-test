@@ -32,6 +32,10 @@ class LoginView(auth_views.LoginView):
     redirect_authenticated_user = True
 
 
+class LogoutView(auth_views.LogoutView):
+    pass
+
+
 class UpdateInfoView(UpdateView):
     template_name = "user/info.html"
     form_class = UpdateInfoForm
