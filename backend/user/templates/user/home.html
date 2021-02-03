@@ -69,15 +69,18 @@ function refreshModalForm(formBody) {
         .then(response => response.text())
         .then(content => infoFormBody.innerHTML = content);
 }
+function ajaxifyOpenModalButton(infoLink) {
+    infoLink.addEventListener("click", function openModal() {
+        event.preventDefault();
+        modal.show();
+    });
+}
 
 const modal = new bootstrap.Modal(document.getElementById("infoModal"));
 
 const infoLink = document.querySelector("[data-target=info-link]");
 if (infoLink) {
-    infoLink.addEventListener("click", function openModal() {
-        event.preventDefault();
-        modal.show();
-    });
+    ajaxifyOpenModalButton(infoLink);
 }
 
 const infoFormBody = document.querySelector("[data-target=info-form-body]");
@@ -107,6 +110,7 @@ if (infoForm) {
                     infoCard.innerHTML = content;
                     modal.hide();
                     refreshModalForm(infoFormBody);
+                    ajaxifyOpenModalButton(infoLink);
                 });
             }
         });
