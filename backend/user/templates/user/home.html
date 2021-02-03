@@ -2,7 +2,21 @@
 
 {% block body %}
     {% if user.is_authenticated %}
-    USER CARD HERE
+    <div class="row gx-5" data-target="user_card">
+        <div class="col-md-6 p-2">
+            {% include "user/card.html" %}
+        </div>
+
+        <div class="col-md-6 p-2">
+            <div class="card">
+                <img src="..." class="card-img-top ratio ratio-21x9" alt="...">
+                <div class="card-body">
+                <h5 class="card-title">Time to leave</h5>
+                <a href="/logout" class="btn btn-primary">Log out</a>
+                </div>
+            </div>
+        </div>
+    </div>
     {% else %}
     <div class="row gx-5">
         <div class="col-md-6 p-2">

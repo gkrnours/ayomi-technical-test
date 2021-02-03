@@ -1,0 +1,19 @@
+{% load gravatar %}
+
+<div class="card">
+    <div class="card-img-top ratio ratio-21x9"
+        style="background: no-repeat center/100% url({% gravatar_url request.user.email 300 %})"
+    >
+        <!-- <img src="" alt="..."> -->
+    </div>
+    <div class="card-body">
+    <h5 class="card-title">{{ request.user.username }}</h5>
+    <p class="card-text">
+        <dl>
+            <dt>Email:</dt>
+            <dd>{{ request.user.email|default:"N/A" }}</dd>
+        </dl>
+    </p>
+    <a href="/info" class="btn btn-primary">Change</a>
+    </div>
+</div>

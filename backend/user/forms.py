@@ -1,8 +1,8 @@
 from django import forms
+from django.contrib.auth.models import User
 
-class SigninForm(forms.Form):
-    email = forms.EmailField()
-    password = forms.CharField()
+class UpdateInfoForm(forms.ModelForm):
 
-    def save(self):
-        print(self.cleaned_data)
+    class Meta:
+        model = User
+        fields = ("email",)
