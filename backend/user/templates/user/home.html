@@ -4,8 +4,26 @@
     {% if user.is_authenticated %}
     USER CARD HERE
     {% else %}
-    LOGIN CARD HERE
-    
-    LOGOUT CARD HERE
+    <div class="row gx-5">
+        <div class="col-md-6 p-2">
+            <div class="card">
+                <img src="..." class="card-img-top ratio ratio-21x9" alt="...">
+                <div class="card-body">
+                <h5 class="card-title">First time user</h5>
+                <a href="/signin" class="btn btn-primary">Sign in</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 p-2">
+            <div class="card">
+                <img src="..." class="card-img-top ratio ratio-21x9" alt="...">
+                <div class="card-body">
+                <h5 class="card-title">Returning user</h5>
+                <a href="/login" class="btn btn-primary">Log in</a>
+                </div>
+            </div>
+        </div>
+    </div>
     {% endif %}
 {% endblock %}

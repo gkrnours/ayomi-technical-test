@@ -1,0 +1,17 @@
+{% extends "index.html" %}
+{% load widget_tweaks %}
+
+{% block body %}
+    <h2 class="mb-3">Login</h2>
+    
+    <form method="post">
+        {% csrf_token %}
+        {% include "bs5_form.html" %}
+        
+        <div class="mb-3">
+            <button class="btn btn-primary" type="submit">
+                login
+            </button>
+        </div>
+    </form>
+{% endblock %}

@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'widget_tweaks',
     "ayomi",
     "user",
 ]
@@ -52,6 +53,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "ayomi.urls"
+LOGIN_REDIRECT_URL = "/"
 
 TEMPLATES = [
     {
