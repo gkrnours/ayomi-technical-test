@@ -3,7 +3,7 @@
 {% block body %}
     {% if user.is_authenticated %}
     <div class="row gx-5" data-target="user_card">
-        <div class="col-md-6 p-2">
+        <div class="col-md-6 p-2" data-target="info-card">
             {% include "user/card.html" %}
         </div>
 
@@ -40,4 +40,77 @@
         </div>
     </div>
     {% endif %}
+
+    <div class="modal" tabindex="-1" id="infoModal">
+        <form method="post" data-target="info-form" novalidate>
+        {% csrf_token %}
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Update your info</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" data-target="info-form-body">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+        </form>
+      </div>
+{% endblock %}
+
+{% block js %}
+<script>
+function refreshModalForm(formBody) {
+    fetch("/info/", {headers: {Accept: "text/html-fragment, text/html"}})
+        .then(response => response.text())
+        .then(content => infoFormBody.innerHTML = content);
+}
+
+const modal = new bootstrap.Modal(document.getElementById("infoModal"));
+
+const infoLink = document.querySelector("[data-target=info-link]");
+if (infoLink) {
+    infoLink.addEventListener("click", function openModal() {
+        event.preventDefault();
+        modal.show();
+    });
+}
+
+const infoFormBody = document.querySelector("[data-target=info-form-body]");
+if (infoFormBody) {
+    refreshModalForm(infoFormBody);
+}
+
+
+const infoCard = document.querySelector("[data-target=info-card]");
+const infoForm = document.querySelector("[data-target=info-form]");
+if (infoForm) {
+    infoForm.addEventListener("submit", function submitInfo() {
+        event.preventDefault();
+        const form = new FormData(event.target);
+        fetch('/info/', {
+            method: 'POST',
+            body: form,
+            headers: {Accept: "text/fragment, text/html"},
+        })
+        .then(response => {
+            if (response.status === 400) {
+                response.text()
+                .then(content => infoFormBody.innerHTML = content);
+            } else {
+                response.text()
+                .then(content => {
+                    infoCard.innerHTML = content;
+                    modal.hide();
+                    refreshModalForm(infoFormBody);
+                });
+            }
+        });
+    });
+}
+</script>
 {% endblock %}

@@ -42,7 +42,10 @@ class UpdateInfoView(UpdateView):
     success_url = "/"
 
     def is_ajax(self):
-        return self.request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+        return any([
+            c_t for c_t in self.request.accepted_types
+            if (c_t.main_type == "text" and c_t.sub_type == "fragment")
+        ])
 
     def get_template_names(self):
         if self.is_ajax():
@@ -53,7 +56,17 @@ class UpdateInfoView(UpdateView):
     def get_object(self):
         return self.request.user
 
+    def form_invalid(self, form):
+        if self.is_ajax():
+            return render(
+                self.request, "bs5_form.html",
+                context=self.get_context_data(form=form),
+                status=400,
+            )
+        return super().form_invalid(form)
+
     def form_valid(self, form):
-        user = form.save(commit=False)
-        user.save()
+        if self.is_ajax():
+            form.save()
+            return render(self.request, "user/card.html")
         return super().form_valid(form)
